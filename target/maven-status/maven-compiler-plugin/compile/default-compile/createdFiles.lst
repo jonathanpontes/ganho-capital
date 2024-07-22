@@ -1,0 +1,8 @@
+Main.class
+programa\service\CalcularCapitalService.class
+programa\model\OperacaoEntrada.class
+programa\model\OperacaoCalculada.class
+programa\service\GerenciadorDeExcecucaoService.class
+programa\model\OperacaoSaida.class
+programa\model\TipoOperacaoEnum.class
+programa\utils\JsonConverter.class
