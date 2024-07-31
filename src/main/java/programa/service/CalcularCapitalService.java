@@ -58,29 +58,39 @@ public class CalcularCapitalService {
 
 
     public double calcularLucroOperacao(OperacaoEntrada operacaoAtual, OperacaoCalculada operacaoCalculada) {
+        double custoTotalCompra = calcularCustoTotalCompra(operacaoAtual, operacaoCalculada);
+        double valorTotalVenda = calcularValorTotalVenda(operacaoAtual);
+        double lucro = calcularLucro(custoTotalCompra, valorTotalVenda);
 
-        //Custo total da compra é baseado nas ação que estão sendo vendidas
-        double custoTotalCompra = operacaoCalculada.getMediaPonderada() * operacaoAtual.getQuantidade();
-        //Valor total da venda é baseado nas ações que estão sendo vendidas
-        double valorTotalVenda = operacaoAtual.getPrecoUnitario() * operacaoAtual.getQuantidade();
-        double lucro = valorTotalVenda - custoTotalCompra;
+        atualizarLucrosOuPrejuizos(operacaoCalculada, lucro);
 
-        //Verificar se a operação foi lucrativa ou não
+        return atualizarDiferencaLucroPorPrejuizo(operacaoAtual, operacaoCalculada, lucro);
+    }
+
+    private double calcularCustoTotalCompra(OperacaoEntrada operacaoAtual, OperacaoCalculada operacaoCalculada) {
+        return operacaoCalculada.getMediaPonderada() * operacaoAtual.getQuantidade();
+    }
+
+    private double calcularValorTotalVenda(OperacaoEntrada operacaoAtual) {
+        return operacaoAtual.getPrecoUnitario() * operacaoAtual.getQuantidade();
+    }
+
+    private double calcularLucro(double custoTotalCompra, double valorTotalVenda) {
+        return valorTotalVenda - custoTotalCompra;
+    }
+
+    private void atualizarLucrosOuPrejuizos(OperacaoCalculada operacaoCalculada, double lucro) {
         if (lucro > 0) {
             operacaoCalculada.setLucrosUltimaOperacao(lucro);
         } else {
             operacaoCalculada.setPrejuizosUltimaOperacao(lucro);
         }
+    }
 
-        //Calcular diferença de lucro por prejuízo apenas para operações de venda
-        if (operacaoAtual.getTipoOperacao().equals(TipoOperacaoEnum.sell)) {
-            double diferencaLucroPorPrejuizo = (operacaoCalculada.getDiferencaLucroPorPrejuizo() + (lucro));
-            operacaoCalculada.setDiferencaLucroPorPrejuizo(diferencaLucroPorPrejuizo);
-            return diferencaLucroPorPrejuizo;
-        } else {
-            return (operacaoCalculada.getDiferencaLucroPorPrejuizo() + (lucro));
-        }
-
+    private double atualizarDiferencaLucroPorPrejuizo(OperacaoEntrada operacaoAtual, OperacaoCalculada operacaoCalculada, double lucro) {
+        double diferencaLucroPorPrejuizo = operacaoCalculada.getDiferencaLucroPorPrejuizo() + lucro;
+        operacaoCalculada.setDiferencaLucroPorPrejuizo(diferencaLucroPorPrejuizo);
+        return diferencaLucroPorPrejuizo;
     }
 
     public double calcularImpostoPago(double lucro, TipoOperacaoEnum tipoOperacao, double precoMedioPonderadoCompra, double valorCompra, double valorTotalOperacao) {

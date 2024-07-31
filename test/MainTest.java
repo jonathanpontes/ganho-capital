@@ -19,7 +19,7 @@ public class MainTest {
 
     @Test
     public void testMainComEntradaUnica() {
-        String entrada = "[{\"operation\":\"buy\", \"unit-cost\":10.00, \"quantity\": 10000}, {\"operation\":\"sell\", \"unit-cost\":20.00, \"quantity\": 5000}]\n";
+        String entrada = "[{\"operation\":\"buy\", \"unit-cost\":10.00, \"quantity\": 10000}, {\"operation\":\"sell\", \"unit-cost\":20.00, \"quantity\": 5000}]" + System.lineSeparator();
 
         String saida = "[{\"tax\":0},{\"tax\":10000}]";
 
@@ -33,11 +33,11 @@ public class MainTest {
    @Test
     public void testMainCom2ListasDeEntrada() {
         String entrada =
-                "[{\"operation\":\"buy\", \"unit-cost\":10.00, \"quantity\": 10000}, {\"operation\":\"sell\", \"unit-cost\":20.00, \"quantity\": 5000}]\n" +
-                "[{\"operation\":\"buy\", \"unit-cost\":20.00, \"quantity\": 10000}, {\"operation\":\"sell\", \"unit-cost\":10.00, \"quantity\": 5000}]\n";
+                "[{\"operation\":\"buy\", \"unit-cost\":10.00, \"quantity\": 10000}, {\"operation\":\"sell\", \"unit-cost\":20.00, \"quantity\": 5000}]" + System.lineSeparator() +
+                "[{\"operation\":\"buy\", \"unit-cost\":20.00, \"quantity\": 10000}, {\"operation\":\"sell\", \"unit-cost\":10.00, \"quantity\": 5000}]" + System.lineSeparator();
 
         String saida =
-                "[{\"tax\":0},{\"tax\":10000}]\r\n" +
+                "[{\"tax\":0},{\"tax\":10000}]" + System.lineSeparator() +
                 "[{\"tax\":0},{\"tax\":0}]";
 
         System.setIn(new ByteArrayInputStream(entrada.getBytes()));
@@ -54,11 +54,11 @@ public class MainTest {
     @Test
     public void testMainCaso1eCaso2() {
         String entrada =
-      "[{\"operation\":\"buy\", \"unit-cost\":10.00, \"quantity\": 100}, {\"operation\":\"sell\", \"unit-cost\":15.00, \"quantity\": 50}, {\"operation\":\"sell\", \"unit-cost\":15.00, \"quantity\": 50}]\n" +
-     "[{\"operation\":\"buy\", \"unit-cost\":10.00, \"quantity\": 10000}, {\"operation\":\"sell\", \"unit-cost\":20.00, \"quantity\": 5000}, {\"operation\":\"sell\", \"unit-cost\":5.00, \"quantity\": 5000}]\n";
+      "[{\"operation\":\"buy\", \"unit-cost\":10.00, \"quantity\": 100}, {\"operation\":\"sell\", \"unit-cost\":15.00, \"quantity\": 50}, {\"operation\":\"sell\", \"unit-cost\":15.00, \"quantity\": 50}]" + System.lineSeparator() +
+     "[{\"operation\":\"buy\", \"unit-cost\":10.00, \"quantity\": 10000}, {\"operation\":\"sell\", \"unit-cost\":20.00, \"quantity\": 5000}, {\"operation\":\"sell\", \"unit-cost\":5.00, \"quantity\": 5000}]" + System.lineSeparator() ;
 
         String saida =
-                "[{\"tax\":0},{\"tax\":0},{\"tax\":0}]\r\n" +
+                "[{\"tax\":0},{\"tax\":0},{\"tax\":0}]" + System.lineSeparator() +
                 "[{\"tax\":0},{\"tax\":10000},{\"tax\":0}]";
 
         System.setIn(new ByteArrayInputStream(entrada.getBytes()));
